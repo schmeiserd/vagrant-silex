@@ -5,3 +5,4 @@ silex/.DS_Store
 silex/.idea
 silex/vendor
 silex/web/vendor
+silex/composer.phar

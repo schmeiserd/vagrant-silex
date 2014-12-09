@@ -1,0 +1,3 @@
+USE silex;
+
+-- CREATE YOUR TABLES HERE
