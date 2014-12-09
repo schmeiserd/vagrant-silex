@@ -1,0 +1,4 @@
+DROP DATABASE IF EXISTS silex;
+CREATE DATABASE IF NOT EXISTS silex;
+USE silex;
+GRANT ALL PRIVILEGES ON silex.* TO 'silex'@'localhost' IDENTIFIED BY 'silex';

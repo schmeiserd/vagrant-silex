@@ -1,0 +1,14 @@
+{
+    "name": "survey",
+    "version": "1",
+    "authors": [
+        "dominik@autonetzer.de"
+    ],
+    "description": "a small survey tool",
+    "license": "-",
+    "private": true,
+    "dependencies": {
+        "jquery": ">= 2.1.1",
+        "bootstrap": ">= 3.3.1"
+    }
+}
