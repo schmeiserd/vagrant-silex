@@ -12,14 +12,14 @@ apt-get install -y apache2
 
 echo "### config apache ###"
 sudo a2enmod rewrite
-sudo cp /home/vagrant/provision/apache_config /etc/apache2/sites-available/default
+sudo cp /home/vagrant/provision/apache_config /etc/apache2/sites-available/000-default.conf
 
 echo "### install php ###"
 sudo apt-get install -y php5 php-pear php5-dev php5-gd php5-curl php5-mcrypt php5-xdebug php5-mysql
 
 echo "### config xdebug ###"
 sudo pecl install xdebug
-sudo cp /home/vagrant/provision/xdebug.ini /etc/php5/conf.d/xdebug.ini
+sudo cp /home/vagrant/provision/xdebug.ini /etc/php5/mods-available/xdebug.ini
 
 sudo service apache2 restart
 

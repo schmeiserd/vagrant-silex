@@ -6,7 +6,7 @@
                 AllowOverride All
                 FallbackResource /index.php
                 Order allow,deny
-                allow from all
+                Allow from all
         </Directory>
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
