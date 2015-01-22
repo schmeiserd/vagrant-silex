@@ -9,6 +9,7 @@ use Symfony\Component\Templating\PhpEngine;
 use Symfony\Component\Templating\TemplateNameParser;
 use Symfony\Component\Templating\Loader\FilesystemLoader;
 use Symfony\Component\Templating\DelegatingEngine;
+use Symfony\Component\Templating\Helper\SlotsHelper;
 use Symfony\Bridge\Twig\TwigEngine;
 
 $app['debug'] = true;
@@ -38,7 +39,12 @@ $app['templating.template_name_parser'] = function() {
 };
 
 $app['templating.engine.php'] = function() use ($app) {
-    return new PhpEngine($app['templating.template_name_parser'], $app['templating.loader']);
+    $engine = new PhpEngine(
+        $app['templating.template_name_parser'],
+        $app['templating.loader']
+    );
+    $engine->set(new SlotsHelper());
+    return $engine;
 };
 
 $app['templating.engine.twig'] = function() use ($app) {
@@ -47,13 +53,11 @@ $app['templating.engine.twig'] = function() use ($app) {
 
 $app['templating'] = function() use ($app) {
     $engines = array();
-
     foreach ($app['templating.engines'] as $i => $engine) {
         if (is_string($engine)) {
             $engines[$i] = $app[sprintf('templating.engine.%s', $engine)];
         }
     }
-
     return new DelegatingEngine($engines);
 };
 
