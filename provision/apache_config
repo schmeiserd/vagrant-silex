@@ -10,4 +10,8 @@
         </Directory>
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
+        <IfModule mod_php5.c>
+            php_admin_flag display_errors on
+            php_admin_flag display_startup_errors on
+        </IfModule>
 </VirtualHost>
