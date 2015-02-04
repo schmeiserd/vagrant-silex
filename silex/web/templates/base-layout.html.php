@@ -29,18 +29,18 @@
                     </a>
                 </li>
                 <li <?= $page == 'parameter' ? 'class="active"' : '' ?>>
-                    <a href="/parameter">
+                    <a href="/blog">
                         <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Parameter
+                    </a>
+                </li>
+                <li <?= $page == 'form' ? 'class="active"' : '' ?>>
+                    <a href="/form">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Form Handling
                     </a>
                 </li>
                 <li>
                     <a href="/ajax">
                         <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Ajax
-                    </a>
-                </li>
-                <li>
-                    <a href="/form">
-                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Form Handling
                     </a>
                 </li>
             </ul>

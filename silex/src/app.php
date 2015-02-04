@@ -12,6 +12,9 @@ use Symfony\Component\Templating\DelegatingEngine;
 use Symfony\Component\Templating\Helper\SlotsHelper;
 use Symfony\Bridge\Twig\TwigEngine;
 
+use Symfony\Component\Form\Forms;
+use Symfony\Component\Form\Extension\Templating\TemplatingExtension;
+
 $app['debug'] = true;
 
 $app->register(new TranslationServiceProvider());
@@ -34,11 +37,11 @@ $app['templating.loader'] = function () {
     return new FilesystemLoader(__DIR__ . '/../web/templates/%name%');
 };
 
-$app['templating.template_name_parser'] = function() {
+$app['templating.template_name_parser'] = function () {
     return new TemplateNameParser();
 };
 
-$app['templating.engine.php'] = function() use ($app) {
+$app['templating.engine.php'] = function () use ($app) {
     $engine = new PhpEngine(
         $app['templating.template_name_parser'],
         $app['templating.loader']
@@ -47,11 +50,11 @@ $app['templating.engine.php'] = function() use ($app) {
     return $engine;
 };
 
-$app['templating.engine.twig'] = function() use ($app) {
+$app['templating.engine.twig'] = function () use ($app) {
     return new TwigEngine($app['twig'], $app['templating.template_name_parser']);
 };
 
-$app['templating'] = function() use ($app) {
+$app['templating'] = function () use ($app) {
     $engines = array();
     foreach ($app['templating.engines'] as $i => $engine) {
         if (is_string($engine)) {
@@ -59,6 +62,17 @@ $app['templating'] = function() use ($app) {
         }
     }
     return new DelegatingEngine($engines);
+};
+
+$app['form.factory'] = function () use ($app) {
+    $formFactory = Forms::createFormFactoryBuilder()
+        ->addExtension(
+            new TemplatingExtension(
+                $app['templating.engine.php']
+            )
+        )
+        ->getFormFactory();
+    return $formFactory;
 };
 
 $app->register(new DoctrineServiceProvider(), array(
