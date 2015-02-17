@@ -7,3 +7,16 @@ CREATE TABLE blog_post (
   text TEXT,
   created_at DATE
 );
+
+INSERT INTO blog_post
+  (title, text, created_at)
+VALUES
+  ('New Title', 'This is the content', CURRENT_DATE);
+
+SELECT *
+FROM blog_post;
+
+SELECT *
+FROM blog_post
+WHERE id = 1;
+

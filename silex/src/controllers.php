@@ -17,6 +17,16 @@ $app->get('/route', function (Request $request) use ($app) {
     return $returnVal;
 });
 
+$app->get('/db', function () use ($app) {
+    /** @var Doctrine\DBAL\Connection $dbConnection */
+    $dbConnection = $app['db'];
+
+    $returnVal = "";
+    // do stuff
+
+    return $returnVal;
+});
+
 $app->get('/static', function () use ($app) {
     return $app['templating']->render(
         'static.html.php',

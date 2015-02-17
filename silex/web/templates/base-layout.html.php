@@ -1,10 +1,17 @@
+<?php
+/**
+ * @var $view \Symfony\Bundle\FrameworkBundle\Templating\PhpEngine
+ * @var $slots Symfony\Component\Templating\Helper\SlotsHelper;
+ */
+$slots = $view['slots'];
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title><?php $view['slots']->output('title', 'My website title') ?></title>
+    <title><?php $slots->output('title', 'My website title') ?></title>
     <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css"/>
     <script src="/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
