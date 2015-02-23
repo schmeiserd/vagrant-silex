@@ -18,7 +18,7 @@
                         </em>
                         <br/>
                         <?= implode(' ', array_slice(explode(' ', $post['text']), 0, 10)); ?>
-                        <a href="/blog/<?= $post['id'] ?>">
+                        <a href="/blog-post/<?= $post['id'] ?>">
                             [...]
                         </a>
                     </li>

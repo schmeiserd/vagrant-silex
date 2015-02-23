@@ -2,6 +2,7 @@
 /**
  * @var $view \Symfony\Bundle\FrameworkBundle\Templating\PhpEngine
  * @var $slots Symfony\Component\Templating\Helper\SlotsHelper;
+ * @var $page
  */
 $slots = $view['slots'];
 ?>
@@ -15,6 +16,7 @@ $slots = $view['slots'];
     <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css"/>
     <script src="/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <base href="http://localhost:8001"/>
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -35,19 +37,19 @@ $slots = $view['slots'];
                         <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Static
                     </a>
                 </li>
-                <li <?= $page == 'parameter' ? 'class="active"' : '' ?>>
+                <li <?= $page == 'blog' ? 'class="active"' : '' ?>>
                     <a href="/blog">
-                        <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Parameter
+                        <span class="glyphicon glyphicon-list" aria-hidden="true"></span> Blog
                     </a>
                 </li>
                 <li <?= $page == 'form' ? 'class="active"' : '' ?>>
                     <a href="/form">
-                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Form Handling
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> New Blog Post
                     </a>
                 </li>
-                <li>
-                    <a href="/ajax">
-                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Ajax
+                <li <?= $page == 'login' ? 'class="active"' : '' ?>>
+                    <a href="/login">
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Anmelden
                     </a>
                 </li>
             </ul>
@@ -56,7 +58,7 @@ $slots = $view['slots'];
 </nav>
 
 <div class="container">
-    <?php $view['slots']->output('_content') ?>
+    <?php $slots->output('_content') ?>
 </div>
 </body>
 </html>

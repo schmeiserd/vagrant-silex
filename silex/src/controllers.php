@@ -21,7 +21,14 @@ $app->get('/db', function () use ($app) {
     /** @var Doctrine\DBAL\Connection $dbConnection */
     $dbConnection = $app['db'];
 
-    $returnVal = "";
+    $title = "";
+    $text = "";
+    $createdAt = "";
+
+    $posts = $dbConnection->fetchAll('SELECT * FROM blog_post');
+
+
+    $returnVal = var_dump($posts);
     // do stuff
 
     return $returnVal;
@@ -36,37 +43,74 @@ $app->get('/static', function () use ($app) {
     );
 });
 
-$app->get('/blog/{id}', function ($id) use ($app) {
+$app->match('/login', function (Request $request) use ($app) {
+    if ($request->isMethod('POST')) {
+        $name = $request->get('name');
+
+        if ($name) {
+
+            $app['session']->set(
+                'user',
+                array('user' => $name)
+            );
+
+            return $app['templating']->render(
+                'success.html.php',
+                array(
+                    'page' => 'login',
+                    'msg' => 'Erfolgreich eingeloggt!'
+                )
+            );
+        }
+    }
+
+    return $app['templating']->render(
+        'login.html.php',
+        array(
+            'page' => 'login'
+        )
+    );
+});
+
+$app->get('blog', function () use ($app) {
     /** @var Doctrine\DBAL\Connection $dbConnection */
     $dbConnection = $app['db'];
 
-    if (!$id) {
-        $posts = $dbConnection->fetchAll('SELECT * FROM blog_post');
+    $posts = $dbConnection->fetchAll('SELECT * FROM blog_post');
 
-        return $app['templating']->render(
-            'list.html.php',
-            array(
-                'page' => 'parameter',
-                'posts' => $posts
-            )
-        );
-    } else {
-        $post = $dbConnection->fetchAssoc(
-            'SELECT * FROM blog_post WHERE id = ?',
-            array($id)
-        );
-        return $app['templating']->render(
-            'post.html.php',
-            array(
-                'page' => 'blog',
-                'post' => $post
-            )
-        );
-    }
-})->value('id', false);
+    return $app['templating']->render(
+        'list.html.php',
+        array(
+            'page' => 'blog',
+            'posts' => $posts
+        )
+    );
+});
+
+$app->get('/blog-post/{id}', function ($id) use ($app) {
+    /** @var Doctrine\DBAL\Connection $dbConnection */
+    $dbConnection = $app['db'];
+
+    $post = $dbConnection->fetchAssoc(
+        'SELECT * FROM blog_post WHERE id = ?',
+        array($id)
+    );
+
+    return $app['templating']->render(
+        'post.html.php',
+        array(
+            'page' => 'blog',
+            'post' => $post
+        )
+    );
+});
 
 $app->match('/form', function (Request $request) use ($app) {
     $hasError = false;
+
+    if (null === $user = $app['session']->get('user')) {
+        return $app->redirect('/login');
+    }
 
     if ($request->isMethod('POST')) {
         $title = $request->get('title');
@@ -80,6 +124,7 @@ $app->match('/form', function (Request $request) use ($app) {
             $db->insert(
                 'blog_post',
                 array(
+                    'author' => $user,
                     'title' => $title,
                     'text' => $text,
                     'created_at' => $createdAt
@@ -87,9 +132,10 @@ $app->match('/form', function (Request $request) use ($app) {
             );
 
             return $app['templating']->render(
-                'form-success.html.php',
+                'success.html.php',
                 array(
-                    'page' => 'form'
+                    'page' => 'form',
+                    'msg' => 'Die Formulardaten wurden erfolgreich verarbeitet!'
                 )
             );
         }
