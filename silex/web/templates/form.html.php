@@ -1,6 +1,9 @@
 <?php
 /**
  * @var \Symfony\Component\Templating\PhpEngine $view
+ * @var $username
+ * @var $title
+ * @var $text
  */
 ?>
 
@@ -10,7 +13,7 @@
     <div class="col-sm-10 col-sm-offset-1">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Neuer Beitrag
+                Neuer Beitrag <em>- angemeldet als <?= $username ?></em>
             </div>
             <div class="panel-body">
 
@@ -23,11 +26,17 @@
                 <form action="/form" method="post">
 
                     <div class="form-group">
-                        <label for="title">Titel</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="Gib einen Titel an">
+                        <input type="text"
+                               class="form-control"
+                               name="title"
+                               placeholder="Gib einen Titel an"
+                               value="<?= $title ?>">
                     </div>
 
-                    <textarea class="form-control" rows="5" name="text"></textarea>
+                    <textarea class="form-control"
+                              rows="5"
+                              name="text"
+                              placeholder="Gib einen Text ein"><?= $text ?></textarea>
                     <br/>
                     <button type="submit" class="btn btn-primary">Absenden</button>
 

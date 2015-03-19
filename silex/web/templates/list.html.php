@@ -12,9 +12,13 @@
                         <strong>
                             <?= $post['title'] ?>
                         </strong>
-                        vom
+                        am
                         <em>
                             <?= $post['created_at'] ?>
+                        </em>
+                        von
+                        <em>
+                            <?= $post['author'] ?>
                         </em>
                         <br/>
                         <?= implode(' ', array_slice(explode(' ', $post['text']), 0, 10)); ?>

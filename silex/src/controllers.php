@@ -3,42 +3,16 @@ use Symfony\Component\HttpFoundation\Request;
 
 /** @var $app Silex\Application */
 
-$app->get('/route', function (Request $request) use ($app) {
-    $returnVal = "";
-
-    $returnVal .= $request->isMethod('GET') ? 'true' : 'false';
-    $returnVal .= ' - ';
-    $returnVal .= $request->get('answer');
-    $returnVal .= ' - ';
-    $returnVal .= $request->get('foo');
-    $returnVal .= ' - ';
-    $returnVal .= $request->get('foo', 'bar');
-
-    return $returnVal;
+$app->get('/', function () use ($app) {
+    return $app->redirect('/home');
 });
 
-$app->get('/db', function () use ($app) {
-    /** @var Doctrine\DBAL\Connection $dbConnection */
-    $dbConnection = $app['db'];
-
-    $title = "";
-    $text = "";
-    $createdAt = "";
-
-    $posts = $dbConnection->fetchAll('SELECT * FROM blog_post');
-
-
-    $returnVal = var_dump($posts);
-    // do stuff
-
-    return $returnVal;
-});
-
-$app->get('/static', function () use ($app) {
+$app->get('/home', function () use ($app) {
     return $app['templating']->render(
-        'static.html.php',
+        'home.html.php',
         array(
-            'page' => 'static'
+            'page' => 'home',
+            'loggedIn' => $app['session']->get('user') !== null
         )
     );
 });
@@ -48,16 +22,16 @@ $app->match('/login', function (Request $request) use ($app) {
         $name = $request->get('name');
 
         if ($name) {
-
             $app['session']->set(
                 'user',
-                array('user' => $name)
+                array('username' => $name)
             );
 
             return $app['templating']->render(
                 'success.html.php',
                 array(
                     'page' => 'login',
+                    'loggedIn' => $app['session']->get('user') !== null,
                     'msg' => 'Erfolgreich eingeloggt!'
                 )
             );
@@ -67,9 +41,15 @@ $app->match('/login', function (Request $request) use ($app) {
     return $app['templating']->render(
         'login.html.php',
         array(
-            'page' => 'login'
+            'page' => 'login',
+            'loggedIn' => $app['session']->get('user') !== null
         )
     );
+});
+
+$app->get('/logout', function (Request $request) use ($app) {
+    $app['session']->clear();
+    return $app->redirect('/login');
 });
 
 $app->get('blog', function () use ($app) {
@@ -82,6 +62,7 @@ $app->get('blog', function () use ($app) {
         'list.html.php',
         array(
             'page' => 'blog',
+            'loggedIn' => $app['session']->get('user') !== null,
             'posts' => $posts
         )
     );
@@ -100,6 +81,7 @@ $app->get('/blog-post/{id}', function ($id) use ($app) {
         'post.html.php',
         array(
             'page' => 'blog',
+            'loggedIn' => $app['session']->get('user') !== null,
             'post' => $post
         )
     );
@@ -107,6 +89,8 @@ $app->get('/blog-post/{id}', function ($id) use ($app) {
 
 $app->match('/form', function (Request $request) use ($app) {
     $hasError = false;
+    $title = '';
+    $text = '';
 
     if (null === $user = $app['session']->get('user')) {
         return $app->redirect('/login');
@@ -124,7 +108,7 @@ $app->match('/form', function (Request $request) use ($app) {
             $db->insert(
                 'blog_post',
                 array(
-                    'author' => $user,
+                    'author' => $user['username'],
                     'title' => $title,
                     'text' => $text,
                     'created_at' => $createdAt
@@ -135,6 +119,7 @@ $app->match('/form', function (Request $request) use ($app) {
                 'success.html.php',
                 array(
                     'page' => 'form',
+                    'loggedIn' => $user !== null,
                     'msg' => 'Die Formulardaten wurden erfolgreich verarbeitet!'
                 )
             );
@@ -145,21 +130,11 @@ $app->match('/form', function (Request $request) use ($app) {
         'form.html.php',
         array(
             'page' => 'form',
-            'hasError' => $hasError
+            'loggedIn' => $user !== null,
+            'hasError' => $hasError,
+            'username' => $user['username'],
+            'title' => $title,
+            'text' => $text
         )
-    );
-});
-
-$app->get('/welcome/{name}', function ($name) use ($app) {
-    return $app['templating']->render(
-        'hello.html.php',
-        array('name' => $name)
-    );
-});
-
-$app->get('/welcome-twig/{name}', function ($name) use ($app) {
-    return $app['twig']->render(
-        'hello.html.twig',
-        array('name' => $name)
     );
 });

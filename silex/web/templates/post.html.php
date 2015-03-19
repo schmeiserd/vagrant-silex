@@ -7,9 +7,13 @@
                 <div class="panel-title">
                     <?= $post['title'] ?>
                 </div>
-                vom
+                am
                 <em>
                     <?= $post['created_at'] ?>
+                </em>
+                von
+                <em>
+                    <?= $post['author'] ?>
                 </em>
             </div>
             <div class="panel-body">

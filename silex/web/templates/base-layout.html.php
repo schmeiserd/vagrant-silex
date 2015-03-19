@@ -3,6 +3,7 @@
  * @var $view \Symfony\Bundle\FrameworkBundle\Templating\PhpEngine
  * @var $slots Symfony\Component\Templating\Helper\SlotsHelper;
  * @var $page
+ * @var $loggedIn
  */
 $slots = $view['slots'];
 ?>
@@ -32,9 +33,9 @@ $slots = $view['slots'];
         </div>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
-                <li <?= $page == 'static' ? 'class="active"' : '' ?>>
-                    <a href="/static">
-                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Static
+                <li <?= $page == 'home' ? 'class="active"' : '' ?>>
+                    <a href="/home">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home
                     </a>
                 </li>
                 <li <?= $page == 'blog' ? 'class="active"' : '' ?>>
@@ -47,9 +48,12 @@ $slots = $view['slots'];
                         <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> New Blog Post
                     </a>
                 </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
                 <li <?= $page == 'login' ? 'class="active"' : '' ?>>
-                    <a href="/login">
-                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Anmelden
+                    <a href="/<?= $loggedIn ? 'logout' : 'login' ?>">
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                        <?= $loggedIn ? 'Abmelden' : 'Anmelden' ?>
                     </a>
                 </li>
             </ul>
