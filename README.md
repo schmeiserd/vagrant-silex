@@ -5,7 +5,7 @@ Simple Vagrant box including
 * apache2
 * php (including Xdebug)
 * mysql
-* simple [silex](http://silex.sensiolabs.org/) project
+* simple [silex](http://silex.sensiolabs.org/) blog-project (for educational purpose at [http://www.dhbw-stuttgart.de/service/english/about-us/]Cooperative State University (DHBW))
 
 Setup
 -------------------
