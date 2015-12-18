@@ -4,6 +4,7 @@ use Silex\Provider\FormServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\CsrfServiceProvider;
 
 use Symfony\Component\Templating\PhpEngine;
 use Symfony\Component\Templating\TemplateNameParser;
@@ -17,6 +18,7 @@ $app['debug'] = true;
 $app->register(new TranslationServiceProvider());
 $app->register(new LocaleServiceProvider());
 $app->register(new FormServiceProvider());
+$app->register(new CsrfServiceProvider());
 
 $app->register(new TwigServiceProvider(), array(
     'twig.path' => __DIR__ . '/../web/templates',

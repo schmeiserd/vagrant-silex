@@ -2,13 +2,13 @@
     "require": {
         "silex/silex": "2.0.*@dev",
         "twig/twig": ">=1.8,<2.0-dev",
-        "symfony/twig-bridge": "~2.3",
-        "symfony/templating": "~2.0",
-        "doctrine/dbal": "2.2.*",
-        "symfony/locale": "~2.3",
-        "symfony/form": "~2.3",
-        "symfony/validator": "~2.3",
-        "symfony/config": "~2.3",
-        "symfony/security-csrf": "~2.4"
+        "symfony/twig-bridge": "^3.0",
+        "symfony/templating": "^3.0",
+        "symfony/intl": "^3.0",
+        "symfony/form": "^3.0",
+        "symfony/validator": "^3.0",
+        "symfony/config": "^3.0",
+        "symfony/security-csrf": "^3.0",
+        "doctrine/dbal": "2.2.*"
     }
 }
