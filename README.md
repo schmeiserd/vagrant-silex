@@ -11,7 +11,7 @@ Setup
 -------------------
 * Install [Vagrant >= 1.6.5](https://www.vagrantup.com/downloads.html) & [VirtualBox](https://www.virtualbox.org/)
 * Clone this repository
-* go to project root and run [**vagrant box add ubuntu/trusty64** and] **vagrant up**
+* go to project root and run [**vagrant box add ubuntu/trusty32** and] **vagrant up**
 * open **localhost:8001/welcome/&lt;yourname&gt;**
 
 Project Structure
